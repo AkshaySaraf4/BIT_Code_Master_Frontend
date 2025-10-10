@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { Mail, Lock } from 'lucide-react';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -22,8 +23,8 @@ const AdminLogin = () => {
         alert("Login Successful");
         
         // Store admin details in localStorage
-        localStorage.setItem("adminEmail", email); // Store email to fetch admin details later
-        localStorage.setItem("adminDetails", JSON.stringify(response.data.admin)); // Store full admin details
+        localStorage.setItem("adminEmail", email);
+        localStorage.setItem("adminDetails", JSON.stringify(response.data.admin));
 
         navigate("/admin");
       }
@@ -38,133 +39,239 @@ const AdminLogin = () => {
 
   return (
     <StyledWrapper>
+      <Blob1 />
+      <Blob2 />
+      <Blob3 />
       <div className="container">
         <div className="heading">Faculty Sign In</div>
         <form className="form" onSubmit={handleSubmit}>
-          <input
-            placeholder="E-mail"
-            id="email"
-            name="email"
-            type="email"
-            className="input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            placeholder="Password"
-            id="password"
-            name="password"
-            type="password"
-            className="input"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <span className="forgot-password">
-            <a href="#">Forgot Password ?</a>
-          </span>
+          <InputGroup>
+            <input
+              placeholder="Email ID"
+              id="email"
+              name="email"
+              type="email"
+              className="input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <Mail className="input-icon" size={20} />
+          </InputGroup>
+          <InputGroup>
+            <input
+              placeholder="Password"
+              id="password"
+              name="password"
+              type="password"
+              className="input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <Lock className="input-icon" size={20} />
+          </InputGroup>
+
+          <div className="options-row">
+             {/* Empty div for alignment, or add a "Remember me" if needed */}
+            <div></div>
+            <a href="#" className="forgot-link"> 
+              Forgot Password?
+            </a>
+          </div>
+
           <input value="Sign In" type="submit" className="login-button" />
         </form>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <span className="agreement">
-          <a href="#">Learn user license agreement</a>
-        </span>
+        {error && <p className="error-message">{error}</p>}
       </div>
     </StyledWrapper>
   );
 };
 
+// Define keyframes for a more subtle, floating animation
+const move = keyframes`
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+  }
+  25% {
+    transform: scale(1.1) translate(20px, -30px);
+  }
+  50% {
+    transform: scale(0.9) translate(-20px, 40px);
+  }
+  75% {
+    transform: scale(1.2) translate(-40px, -20px);
+  }
+`;
+
+// Base styled component for the blobs
+const Blob = styled.div`
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.6;
+  z-index: 0;
+  animation: ${move} linear infinite;
+`;
+
+// Create several blobs with different styles and animation speeds
+const Blob1 = styled(Blob)`
+  width: 450px;
+  height: 450px;
+  top: -100px;
+  left: -150px;
+  background: rgba(59, 130, 246, 0.4);
+  animation-duration: 18s;
+`;
+
+const Blob2 = styled(Blob)`
+  width: 350px;
+  height: 350px;
+  bottom: -150px;
+  right: -150px;
+  background: rgba(129, 140, 248, 0.4);
+  animation-duration: 22s;
+  animation-delay: -8s;
+`;
+
+const Blob3 = styled(Blob)`
+  width: 250px;
+  height: 250px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(30, 64, 175, 0.3);
+  animation-duration: 25s;
+`;
+
+// Styled Components
 const StyledWrapper = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #e2e8f0 25%, #f8fafc 100%);
+  overflow: hidden;
+  background: #0f172a; /* Dark blue fallback */
+
+  /* The main gradient is now on a pseudo-element to sit above the moving blobs */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0f172a 0%, #1e40af 60%, #e2e8f0 100%);
+    z-index: 1;
+    opacity: 0.9;
+  }
 
   .container {
-    max-width: 500px; /* Increase the width */
-    width: 100%; /* Ensure it uses the full width within the max-width limit */
-    background: #f8f9fd;
-    background: linear-gradient(
-      0deg,
-      rgb(255, 255, 255) 0%,
-      rgb(244, 247, 251) 100%
-    );
-    border-radius: 40px;
-    padding: 50px 60px; /* Increase padding */
-    border: 5px solid rgb(255, 255, 255);
-    box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 40px 40px -20px; /* Increase shadow */
-    margin: 20px;
+    max-width: 450px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    z-index: 2; /* Ensure the container is on top of all background elements */
   }
 
   .heading {
     text-align: center;
-    font-weight: 900;
-    font-size: 36px; /* Increase font size */
-    color: rgb(16, 137, 211);
+    font-weight: 700;
+    font-size: 32px;
+    color: #fff;
+    margin-bottom: 30px;
   }
 
   .form {
-    margin-top: 30px; /* Add more spacing */
+    margin-top: 20px;
   }
 
-  .form .input {
+  .input {
     width: 100%;
-    background: white;
-    border: none;
-    padding: 18px 25px; /* Increase padding */
-    border-radius: 25px; /* Increase border radius */
-    margin-top: 20px; /* Increase margin */
-    box-shadow: #cff0ff 0px 10px 10px -5px;
-    border-inline: 2px solid transparent;
-  }
-
-  .form .forgot-password {
-    display: block;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 12px 40px 12px 20px;
+    border-radius: 10px;
     margin-top: 15px;
-    margin-left: 10px;
+    color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+    
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    &:focus {
+      border-color: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.3);
+    }
   }
 
-  .form .forgot-password a {
-    font-size: 12px; /* Slightly increase font size */
-    color: #0099ff;
+  .options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+
+  .forgot-link {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
+    transition: color 0.3s ease;
+    &:hover {
+      color: #fff;
+    }
   }
 
-  .form .login-button {
+  .login-button {
     display: block;
     width: 100%;
-    font-weight: bold;
-    background: linear-gradient(
-      45deg,
-      rgb(16, 137, 211) 0%,
-      rgb(18, 177, 209) 100%
-    );
-    color: white;
-    padding-block: 18px; /* Increase padding */
-    margin: 30px auto; /* Increase margin */
-    border-radius: 25px; /* Increase border radius */
-    box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 30px 15px -15px;
-    border: none;
-    transition: all 0.2s ease-in-out;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+    padding-block: 15px;
+    margin-top: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      background: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    }
   }
 
-  .social-account-container {
-    margin-top: 35px; /* Increase margin */
-  }
-
-  .agreement {
-    margin-top: 30px; /* Increase margin */
+  .error-message {
+    color: #ffcccc;
     text-align: center;
-  }
-
-  .agreement a {
-    color: rgb(16, 137, 211);
-    font-size: 12px; /* Slightly increase font size */
-    text-decoration: none;
+    margin-top: 15px;
+    font-size: 14px;
   }
 `;
 
+const InputGroup = styled.div`
+  position: relative;
+  width: 100%;
+  .input-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    pointer-events: none;
+  }
+  &:first-of-type {
+    margin-top: 0;
+  }
+`;
 
 export default AdminLogin;

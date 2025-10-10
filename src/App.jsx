@@ -32,6 +32,7 @@ import SolverPallate from "./components/quiz/SolversPage";
 
 
 
+
 const App = () => {
   const location = useLocation();
 
@@ -40,7 +41,7 @@ const App = () => {
 
   return (
     <main >
-      {showNavbar && <Navbar />}
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="Login-Page" element={<LoginPage />} />
