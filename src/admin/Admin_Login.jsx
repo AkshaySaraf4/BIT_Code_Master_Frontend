@@ -14,7 +14,7 @@ const AdminLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://myspringapp-env.eba-guzhenp3.us-east-1.elasticbeanstalk.com/admin/loginAdmin", {
+      const response = await axios.post("http://136.111.150.230:8080/admin/loginAdmin", {
         email,
         admin_password: password,
       });

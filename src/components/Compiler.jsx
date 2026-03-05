@@ -7,7 +7,7 @@ function Compiler() {
 
   const handleCompileAndRun = async () => {
     try {
-      const response = await axios.post("http://myspringapp-env.eba-guzhenp3.us-east-1.elasticbeanstalk.com/run", { code });
+      const response = await axios.post("http://136.111.150.230:8080/run", { code });
       setOutput(response.data.output);
     } catch (error) {
       setOutput("Error: " + error.message);

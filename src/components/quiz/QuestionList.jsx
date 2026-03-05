@@ -19,7 +19,7 @@ const QuestionList = () => {
     }, [location]);
 
     const fetchQuestions = (setId) => {
-        fetch(`http://myspringapp-env.eba-guzhenp3.us-east-1.elasticbeanstalk.com/codingQuestions/questionCount?questionSetId=${setId}`)
+        fetch(`http://136.111.150.230:8080/codingQuestions/questionCount?questionSetId=${setId}`)
             .then((response) => response.json())
             .then((data) => {
                 setQuestions(data);
@@ -30,7 +30,7 @@ const QuestionList = () => {
 
     const fetchResultsForQuestions = (setId, questions) => {
         const promises = questions.map((_, index) =>
-            fetch(`http://myspringapp-env.eba-guzhenp3.us-east-1.elasticbeanstalk.com/api/results/resultsByQuestion?questionSetId=${setId}&questionNo=${index + 1}`)
+            fetch(`http://136.111.150.230:8080/api/results/resultsByQuestion?questionSetId=${setId}&questionNo=${index + 1}`)
                 .then((response) => {
                     if (response.ok) {
                         return response.json(); // Return the result if the status is 200

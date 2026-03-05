@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://myspringapp-env.eba-guzhenp3.us-east-1.elasticbeanstalk.com/student/logins", {
+      const response = await axios.post("http://136.111.150.230:8080/student/logins", {
         email,
         password,
       });

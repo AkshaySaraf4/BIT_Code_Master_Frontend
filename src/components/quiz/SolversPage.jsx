@@ -16,7 +16,7 @@ const SolverPallate = () => {
 
     // Fetch all question sets from the backend
     useEffect(() => {
-        fetch("http://myspringapp-env.eba-guzhenp3.us-east-1.elasticbeanstalk.com/sets/allsets")
+        fetch("http://136.111.150.230:8080/sets/allsets")
             .then((response) => response.json())
             .then((data) => setQuestionSets(data))
             .catch((error) => console.error("Error fetching question sets:", error));
